@@ -13,7 +13,7 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  * @version		  1.0
  */
-class NotificationsComponent extends Object {
+class NotificationsComponent extends Component {
 
 	public $component = array('RequestHandler');
 
