@@ -99,7 +99,7 @@ class CheckoutComponent extends Component {
 	 * Methodo para setar as configurações defaults do pagseguro
 	 * @param Object $controller
 	 */
-	public function startup(&$controller) {
+	public function startup(Controller $controller) {
 		$this->Controller =& $controller;
 
 		if ((Configure::read('PagSeguro') != false) && is_array(Configure::read('PagSeguro'))) {

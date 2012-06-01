@@ -47,7 +47,7 @@ class ConsultComponent extends Component {
 		parent::__construct($collection, $settings);
 	}
 
-	public function initialize(&$controller) {
+	public function initialize(Controller $controller) {
 		$this->Controller =& $controller;
 
 		if (Configure::read('PagSeguro') != false && is_array(Configure::read('PagSeguro'))) {
