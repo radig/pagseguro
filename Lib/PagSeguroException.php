@@ -21,6 +21,8 @@ class PagSeguroException extends CakeException {
 				// apenas uma string... não faz conversão
 			}
 
+			$error .= $this->getTraceAsString();
+
 			$msg = $message . " (Problema relacionado ao PagSeguro)\n" . $error;
 			CakeLog::write('error', $msg);
 		}
