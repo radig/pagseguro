@@ -23,6 +23,7 @@ gerado no PagSeguro.
 Uma forma de definir globalmente essa configuração é usando a classe Configure do CakePHP no seu arquivo Config/bootstrap.php
 
 Exemplo:
+
 	Configure::write('PagSeguro', array(
 		'email' => 'exemplo@exemplo.com.br', // Email da conta do vendedor
 		'token' => '3893im3u93i3m9iu39i39iu' // Token gerado pelo PagSeguro
@@ -32,6 +33,7 @@ Mas você pode definir e redefinir essas configurações quantas vezes quiser in
 estático *config()* disponível em todas as libs e components do plugin.
 
 Exemplo:
+
 	PagSeguroCheckout::config(array(
 		'email' => 'exemplo@exemplo.com.br',
 		'token' => '3893im3u93i3m9iu39i39iu'
@@ -40,6 +42,7 @@ Exemplo:
 Ou ainda nas configurações do componente
 
 Exemplo:
+
 	public $components = array('PagSeguro.Checkout', array(
 		'email' => 'exemplo@exemplo.com.br',
 		'token' => '3893im3u93i3m9iu39i39iu'
