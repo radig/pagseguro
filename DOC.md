@@ -1,7 +1,7 @@
 Plugin de integração PagSeguro e CakePHP
 ========================================
 
-Está é a documentação para a Versão 2.0 do plugin PagSeguro.
+Está é a documentação para a Versão 2.1 do plugin PagSeguro.
 
 Requisitos:
 -----------
