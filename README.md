@@ -18,8 +18,8 @@ Requisitos
 Autores
 -----
 
- - Autor Felipe Theodoro Gonçalves ( blog.ftgoncalves.com.br:http://blog.ftgoncalves.com.br )
- - Cauan Cabral ( radig.com.br:http://radig.com.br | cauancabral.net:http://cauancabral.net )
+ - Autor Felipe Theodoro Gonçalves ( [blog.ftgoncalves.com.br](http://blog.ftgoncalves.com.br) )
+ - Cauan Cabral ( [radig.com.br](http://radig.com.br) | [cauancabral.net](http://cauancabral.net) )
 
 Feedback
 --------

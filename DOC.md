@@ -1,7 +1,7 @@
 Plugin de integração PagSeguro e CakePHP
 ========================================
 
-Está é a documentação para a Versão 2.1 do plugin PagSeguro.
+Está é a documentação para a Versão 2.2 do plugin PagSeguro.
 
 Requisitos:
 -----------
@@ -58,7 +58,7 @@ Esta lib viabiliza as solicitações de transação com o PagSeguro. O component
 é apenas um wrapper que facilita o uso da lib em um controller.
 
 ### Carregando o component:
-	
+
 	public $components = array('PagSeguro.Checkout');
 
 ### Funcionamento
