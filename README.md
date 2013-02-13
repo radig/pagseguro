@@ -11,15 +11,15 @@ Requisitos
 ----------
 
   - CakePHP 2.x
-  - PHP 5.2.x ou maior, recomendado a última versão.
+  - PHP 5.3 ou maior, recomendado a última versão.
   - OpenSSL
   - Extensão php_openssl
 
 Autores
 -----
 
- - Autor Felipe Theodoro Gonçalves ( blog.ftgoncalves.com.br )
- - Cauan Cabral ( cauancabral.net )
+ - Autor Felipe Theodoro Gonçalves ( blog.ftgoncalves.com.br:http://blog.ftgoncalves.com.br )
+ - Cauan Cabral ( radig.com.br:http://radig.com.br | cauancabral.net:http://cauancabral.net )
 
 Feedback
 --------
@@ -48,7 +48,7 @@ Licenciado sob a licença MIT, que em resumo destaca:
 
 The MIT License
 
-Copyright 2010 - 2012, Felipe Theodoro Gonçalves
+Copyright 2010 - 2013, Felipe Theodoro Gonçalves
                         http://blog.ftgoncalves.com.br
 
 Permission is hereby granted, free of charge, to any person obtaining a
