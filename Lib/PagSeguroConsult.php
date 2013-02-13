@@ -34,16 +34,6 @@ class PagSeguroConsult extends PagSeguro {
 		$this->settings['type'] = self::$TYPE_READ;
 		$this->settings['onlyBasic'] = false;
 
-		self::$statusMap = array(
-			1 => 'Aguardando pagamento',
-			2 => 'Em análise',
-			3 => 'Paga',
-			4 => 'Disponível',
-			5 => 'Em disputa',
-			6 => 'Devolvida',
-			7 => 'Cancelada'
-		);
-
 		parent::__construct($settings);
 
 		$this->URI['path'] = '/v2/transactions/';
