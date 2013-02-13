@@ -12,6 +12,7 @@ class PagSeguroTestCase extends CakeTestCase {
 	{
 		parent::setUp();
 
+		Configure::write('PagSeguro', null);
 		$this->PagSeguro = new PagSeguro();
 	}
 

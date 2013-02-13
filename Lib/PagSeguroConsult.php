@@ -5,8 +5,8 @@ App::uses('PagSeguroException', 'PagSeguro.Lib');
 /**
  * Lib que implementa a API de consulta do PagSeguro.
  *
- * PHP versions 5+
- * Copyright 2010-2012, Felipe Theodoro Gonçalves, (http://ftgoncalves.com.br)
+ * PHP versions 5.3+
+ * Copyright 2010-2013, Felipe Theodoro Gonçalves, (http://ftgoncalves.com.br)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
@@ -15,7 +15,7 @@ App::uses('PagSeguroException', 'PagSeguro.Lib');
  * @author       Cauan Cabral
  * @link         https://github.com/ftgoncalves/pagseguro/
  * @license      MIT License (http://www.opensource.org/licenses/mit-license.php)
- * @version      2.1
+ * @version      2.2
  */
 class PagSeguroConsult extends PagSeguro {
 
@@ -64,7 +64,7 @@ class PagSeguroConsult extends PagSeguro {
 			$response = $this->_sendData($this->_prepareData(), 'GET');
 			return $response;
 		}
-		catch(PagSeguroException $e) {
+		catch (PagSeguroException $e) {
 			$this->lastError = $e->getMessage();
 			return false;
 		}
@@ -82,14 +82,15 @@ class PagSeguroConsult extends PagSeguro {
 	 * false em caso de falha
 	 */
 	public function find($begin, $end, $limit = 50, $page = 1) {
-		if($this->settings['type'] === self::$TYPE_ABANDONED)
+		if ($this->settings['type'] === self::$TYPE_ABANDONED) {
 			$this->URI['path'] .= 'abandoned/';
+		}
 
 		try {
 			$bg = new DateTime($begin);
 			$ed = new DateTime($end);
 		}
-		catch(Exception $e) {
+		catch (Exception $e) {
 			$this->lastError = __('Data de início ou término para a consulta é inválida.');
 			return false;
 		}
@@ -105,7 +106,7 @@ class PagSeguroConsult extends PagSeguro {
 			$response = $this->_sendData($this->_prepareData(), 'GET');
 			return $response;
 		}
-		catch(PagSeguroException $e) {
+		catch (PagSeguroException $e) {
 			$this->lastError = $e->getMessage();
 			return false;
 		}
@@ -150,13 +151,14 @@ class PagSeguroConsult extends PagSeguro {
 	 */
 	protected function _parseResponse($data) {
 
-		if(!isset($data['transactionSearchResult']) && !isset($data['transaction']))
+		if (!isset($data['transactionSearchResult']) && !isset($data['transaction'])) {
 			throw new PagSeguroException("Resposta inválida do PagSeguro para uma Consulta.");
+		}
 
-		if(isset($data['transaction'])) {
-
-			if(!$this->settings['onlyBasic'])
+		if (isset($data['transaction'])) {
+			if (!$this->settings['onlyBasic']) {
 				return $data['transaction'];
+			}
 
 			return $this->_parseOneResponseEntry($data['transaction']);
 		}
@@ -169,8 +171,9 @@ class PagSeguroConsult extends PagSeguro {
 
 		$decoded['items'] = array();
 
-		foreach($data['transactionSearchResult']['transactions'] as $transaction)
+		foreach ($data['transactionSearchResult']['transactions'] as $transaction) {
 			$decoded['items'][] = $this->_parseOneResponseEntry($transaction);
+		}
 
 		return $decoded;
 	}
@@ -195,7 +198,7 @@ class PagSeguroConsult extends PagSeguro {
 			'modified' => $entry['lastEventDate'],
 		);
 
-		if($this->settings['type'] !== self::$TYPE_ABANDONED) {
+		if ($this->settings['type'] !== self::$TYPE_ABANDONED) {
 			$decoded['paymentType'] = $entry['paymentMethod']['type'];
 			$decoded['paymentCode'] = $entry['paymentMethod']['code'];
 		}

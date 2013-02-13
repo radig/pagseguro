@@ -2,13 +2,15 @@
 App::uses('HttpSocket', 'Network/Http');
 App::uses('Xml', 'Utility');
 App::uses('PagSeguroException', 'PagSeguro.Lib');
+App::uses('PagSeguroValidation', 'PagSeguro.Lib');
+App::uses('TransactionStatuses', 'PagSeguro.Lib/Map');
 
 /**
  * Classe base que fornece estrutura comum aos componentes
  * que interagem com o PagSeguro
  *
  * PHP versions 5+
- * Copyright 2010-2012, Felipe Theodoro Gonçalves, (http://ftgoncalves.com.br)
+ * Copyright 2010-2013, Felipe Theodoro Gonçalves, (http://ftgoncalves.com.br)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
@@ -20,6 +22,12 @@ App::uses('PagSeguroException', 'PagSeguro.Lib');
  * @version     2.1
  */
 class PagSeguro {
+
+	/**
+	 * URI do webservice do PagSeguro
+	 *
+	 * @var array
+	 */
 	protected $URI = array(
 		'scheme' => 'https',
 		'host' => 'ws.pagseguro.uol.com.br',
@@ -27,22 +35,41 @@ class PagSeguro {
 		'path' => '',
 	);
 
+	/**
+	 * Configurações para uso da API
+	 *
+	 * @var array
+	 */
 	protected $settings = array(
 		'email' => null,
 		'token' => null
 	);
 
+	/**
+	 * Conjunto de caracteres utilizados na comunicação
+	 * com a API.
+	 *
+	 * @var string
+	 */
 	public $charset = 'UTF-8';
 
+	/**
+	 * Timeout das requisições com a API.
+	 *
+	 * @var integer
+	 */
 	public $timeout = 20;
 
+	/**
+	 * Armazena o último erro retornado pela API.
+	 *
+	 * @var mixed
+	 */
 	public $lastError = null;
-
-	protected static $statusMap = array();
 
 	public function __construct($settings = array()) {
 
-		if(empty($settings) && Configure::read('PagSeguro') !== null) {
+		if (empty($settings) && Configure::read('PagSeguro') !== null) {
 			$settings = (array)Configure::read('PagSeguro');
 		}
 
@@ -55,7 +82,7 @@ class PagSeguro {
 	 * @param array $config
 	 */
 	public function config($config = null) {
-		if($config !== null) {
+		if ($config !== null) {
 			$this->settings = array_merge($this->settings, $config);
 			$this->_settingsValidates();
 
@@ -73,10 +100,8 @@ class PagSeguro {
 	 * @return string Nome da situação
 	 */
 	public static function getStatusName($statusCode) {
-		if(isset(self::$statusMap[$statusCode]))
-			return self::$statusMap[$statusCode];
-
-		return 'Situação inválida';
+		$msg = PagSeguro\Lib\Map\TransactionStatuses::getMessage($statusCode);
+		return $msg ?: 'Situação inválida';
 	}
 
 	/**
@@ -94,7 +119,7 @@ class PagSeguro {
 			'timeout' => $this->timeout
 		));
 
-		if('get' === strtolower($method)) {
+		if ('get' === strtolower($method)) {
 			$return = $HttpSocket->get(
 				$this->URI,
 				$data,
@@ -116,7 +141,7 @@ class PagSeguro {
 			case 401:
 				throw new PagSeguroException('O Token ou E-mail foi rejeitado pelo PagSeguro. Verifique as configurações.', 401);
 			case 404:
-				throw new PagSeguroException('Recurso não encontrado. Verifique os dados enviados.');
+				throw new PagSeguroException('Recurso não encontrado. Verifique os dados enviados.', 404);
 			default:
 				throw new PagSeguroException('Erro desconhecido com a API do PagSeguro. Verifique suas configurações.');
 		}
@@ -124,12 +149,13 @@ class PagSeguro {
 		try {
 			$response = Xml::toArray(Xml::build($return->body));
 		}
-		catch(XmlException $e) {
+		catch (XmlException $e) {
 			throw new PagSeguroException('A resposta do PagSeguro não é um XML válido.');
 		}
 
-		if($this->_parseResponseErrors($response))
+		if ($this->_parseResponseErrors($response)) {
 			throw new PagSeguroException("Erro com os dados enviados no PagSeguro.", 666, $return->body);
+		}
 
 		return $this->_parseResponse($response);
 	}
@@ -153,13 +179,15 @@ class PagSeguro {
 	 * @return bool True caso hajam erros, False caso contrário
 	 */
 	protected function _parseResponseErrors($data) {
-		if(!isset($response['errors']))
+		if (!isset($response['errors'])) {
 			return false;
+		}
 
 		$lastError = "Erro no PagSeguro: \n";
 
-		foreach($response['errors'] as $error)
+		foreach ($response['errors'] as $error) {
 			$lastError .= "[{$error['error']['code']}] {$error['error']['message']}\n";
+		}
 
 		return true;
 	}
@@ -171,14 +199,17 @@ class PagSeguro {
 	 * @return void
 	 */
 	protected function _settingsValidates() {
-		$fields = array('email' => 60, 'token' => 32);
+		$fields = array('email', 'token');
 
-		foreach($fields as $fieldName => $length) {
-			if (!isset($this->settings[$fieldName]) || empty($this->settings[$fieldName]))
+		foreach ($fields as $fieldName) {
+			if (!isset($this->settings[$fieldName])) {
 				throw new PagSeguroException("Erro de configuração - Atributo '{$fieldName}' não definido.");
+			}
 
-			if(strlen($this->settings[$fieldName]) > $length)
-				throw new PagSeguroException("Erro de configuração - Atributo '{$fieldName}' excede limite de {$length} caracteres da API.");
+			if (PagSeguroValidation::$fieldName($this->settings[$fieldName]) === false) {
+				$msg = str_replace(':attr:', $fieldName, PagSeguroValidation::$lastError);
+				throw new PagSeguroException("Erro de configuração - " . $msg);
+			}
 		}
 	}
 }

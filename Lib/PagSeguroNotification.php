@@ -5,8 +5,8 @@ App::uses('PagSeguroException', 'PagSeguro.Lib');
 /**
  * Lib que implementa a API de notificação do PagSeguro.
  *
- * PHP versions 5+
- * Copyright 2010-2012, Felipe Theodoro Gonçalves, (http://ftgoncalves.com.br)
+ * PHP versions 5.3+
+ * Copyright 2010-2013, Felipe Theodoro Gonçalves, (http://ftgoncalves.com.br)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
@@ -15,7 +15,7 @@ App::uses('PagSeguroException', 'PagSeguro.Lib');
  * @author       Cauan Cabral
  * @link         https://github.com/ftgoncalves/pagseguro/
  * @license      MIT License (http://www.opensource.org/licenses/mit-license.php)
- * @version      2.1
+ * @version      2.2
  */
 class PagSeguroNotification extends PagSeguroConsult {
 
@@ -39,7 +39,7 @@ class PagSeguroNotification extends PagSeguroConsult {
 	 * @return mixed array com dos dados da notificação em caso de sucesso, false em caso de falha
 	 */
 	public function read($data) {
-		if(!$this->isValidNotification($data)) {
+		if (!$this->isValidNotification($data)) {
 			return false;
 		}
 
@@ -54,11 +54,13 @@ class PagSeguroNotification extends PagSeguroConsult {
 	 * @return bool $isValid
 	 */
 	public function isValidNotification($data) {
-		if(!isset($data['notificationCode']) || strlen($data['notificationCode']) != 39)
+		if (!isset($data['notificationCode']) || strlen($data['notificationCode']) != 39) {
 			return false;
+		}
 
-		if(!isset($data['notificationType']) || $data['notificationType'] != 'transaction')
+		if (!isset($data['notificationType']) || $data['notificationType'] != 'transaction') {
 			return false;
+		}
 
 		return true;
 	}

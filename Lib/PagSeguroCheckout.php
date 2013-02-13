@@ -6,8 +6,8 @@ App::uses('PagSeguroException', 'PagSeguro.Lib');
  * Classe que responsável por iniciar uma transação para pagamento
  * via PagSeguro.
  *
- * PHP versions 5+
- * Copyright 2010-2012, Felipe Theodoro Gonçalves, (http://ftgoncalves.com.br)
+ * PHP versions 5.3+
+ * Copyright 2010-2013, Felipe Theodoro Gonçalves, (http://ftgoncalves.com.br)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
@@ -16,7 +16,7 @@ App::uses('PagSeguroException', 'PagSeguro.Lib');
  * @author      Cauan Cabral
  * @link        https://github.com/ftgoncalves/pagseguro/
  * @license     MIT License (http://www.opensource.org/licenses/mit-license.php)
- * @version     2.1
+ * @version     2.2
  */
 class PagSeguroCheckout extends PagSeguro {
 
@@ -124,11 +124,13 @@ class PagSeguroCheckout extends PagSeguro {
 
 		$item = compact($id, $description, $amount, $quantity);
 
-		if(!empty($weight))
+		if (!empty($weight)) {
 			$item['weight'] = $weight;
+		}
 
-		if(!empty($shippingCost))
+		if (!empty($shippingCost)) {
 			$item['shippingCost'] = $shippingCost;
+		}
 
 		$this->setItem($item);
 
@@ -151,12 +153,13 @@ class PagSeguroCheckout extends PagSeguro {
 	 * @return PagSeguroCheckout
 	 */
 	public function setItem($item) {
-		if(!is_array($item))
+		if (!is_array($item)) {
 			throw new PagSeguroException("Este método recebe um array como parâmetro.");
+		}
 
 		$requireds = array('id', 'description', 'amount', 'quantity');
 
-		foreach($requireds as $field) {
+		foreach ($requireds as $field) {
 			if(!isset($item[$field]) || empty($item[$field]))
 				throw new PagSeguroException("O campo {$field} é obrigatório para inclusão de itens.");
 		}
@@ -171,11 +174,13 @@ class PagSeguroCheckout extends PagSeguro {
 			"itemQuantity{$nextId}"		=> $quantity
 		);
 
-		if(isset($weight))
+		if (isset($weight)) {
 			$item["itemWeight{$nextId}"] = $weight;
+		}
 
-		if(isset($shippingCost))
+		if (isset($shippingCost)) {
 			$item["itemShippingCost{$nextId}"] = $shippingCost;
+		}
 
 		$this->cart = array_merge($this->cart, $item);
 		$this->cartCount++;
@@ -227,7 +232,7 @@ class PagSeguroCheckout extends PagSeguro {
 			'senderEmail'		=> $email
 		);
 
-		if($areaCode && $phoneNumber) {
+		if ($areaCode && $phoneNumber) {
 			$this->shippingCustomer['senderAreaCode'] = $areaCode;
 			$this->shippingCustomer['senderPhone']    = $phoneNumber;
 		}
@@ -244,8 +249,9 @@ class PagSeguroCheckout extends PagSeguro {
 	 * @return PagSeguroCheckout
 	 */
 	public function setShippingType($type) {
-		if (!isset($this->typeFreight[$type]))
+		if (!isset($this->typeFreight[$type])) {
 			throw new PagSeguroException("Tipo de entrega '{$type}' não suportado.");
+		}
 
 		$this->type = array('shippingType' => $this->typeFreight[$type]);
 
@@ -266,7 +272,7 @@ class PagSeguroCheckout extends PagSeguro {
 			$response = $this->_sendData($this->_prepareData());
 			return $response;
 		}
-		catch(PagSeguroException $e) {
+		catch (PagSeguroException $e) {
 			$this->lastError = $e->getMessage();
 			return false;
 		}
@@ -281,10 +287,13 @@ class PagSeguroCheckout extends PagSeguro {
 	protected function _settingsValidates() {
 		parent::_settingsValidates();
 
-		if(!isset($this->settings['currency']) || empty($this->settings['currency']))
+		if (!isset($this->settings['currency']) || empty($this->settings['currency'])) {
 			throw new PagSeguroException("Erro de configuração - Atributo 'currency' não definido.");
-		if($this->settings['currency'] !== 'BRL')
+		}
+
+		if ($this->settings['currency'] !== 'BRL') {
 			throw new PagSeguroException("Erro de configuração - Atributo 'currency' só aceita o valor 'BRL'.");
+		}
 	}
 
 	/**
@@ -294,8 +303,9 @@ class PagSeguroCheckout extends PagSeguro {
 	 * @return array
 	 */
 	protected function _parseResponse($data) {
-		if(!isset($data['checkout']))
+		if (!isset($data['checkout'])) {
 			throw new PagSeguroException("Resposta inválida do PagSeguro para Checkout.");
+		}
 
 		$data['redirectTo'] = sprintf($this->redirectTo, $data['checkout']['code']);
 
@@ -308,8 +318,9 @@ class PagSeguroCheckout extends PagSeguro {
 	 * @return array
 	 */
 	protected function _prepareData() {
-		if($this->cartCount === 1)
+		if ($this->cartCount === 1) {
 			throw new PagSeguroException("Seu carrinho está vazio, adicione algum item antes de finalizar.");
+		}
 
 		return array_merge($this->reference, $this->settings, $this->type, $this->cart, $this->shippingAddress, $this->shippingCustomer);
 	}
