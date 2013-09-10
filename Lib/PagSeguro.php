@@ -9,7 +9,7 @@ App::uses('TransactionStatuses', 'PagSeguro.Lib/Map');
  * Classe base que fornece estrutura comum aos componentes
  * que interagem com o PagSeguro
  *
- * PHP versions 5+
+ * PHP versions 5.3+
  * Copyright 2010-2013, Felipe Theodoro Gonçalves, (http://ftgoncalves.com.br)
  *
  * Licensed under The MIT License
@@ -17,9 +17,8 @@ App::uses('TransactionStatuses', 'PagSeguro.Lib/Map');
  *
  * @author      Felipe Theodoro Gonçalves
  * @author      Cauan Cabral
- * @link        https://github.com/ftgoncalves/pagseguro/
+ * @link        https://github.com/radig/pagseguro/
  * @license     MIT License (http://www.opensource.org/licenses/mit-license.php)
- * @version     2.1
  */
 class PagSeguro {
 

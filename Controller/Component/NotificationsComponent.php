@@ -6,17 +6,16 @@ App::uses('PagSeguroNotification', 'PagSeguro.Lib');
  * Wrapper para a lib PagSeguroNotification ser usada
  * junto à controllers.
  *
- * PHP versions 5+
- * Copyright 2010-2012, Felipe Theodoro Gonçalves, (http://ftgoncalves.com.br)
+ * PHP versions 5.3+
+ * Copyright 2010-2013, Felipe Theodoro Gonçalves, (http://ftgoncalves.com.br)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
  * @author	 	 Felipe Theodoro Gonçalves
  * @author       Cauan Cabral
- * @link         https://github.com/ftgoncalves/pagseguro/
+ * @link         https://github.com/radig/pagseguro/
  * @license      MIT License (http://www.opensource.org/licenses/mit-license.php)
- * @version      2.1
  */
 class NotificationsComponent extends Component {
 

@@ -8,7 +8,7 @@ Requisitos:
 
 + CakePHP 2.*
 + API PagSeguro 2.0
-+ PHP 5.3.*
++ PHP 5.3+
 
 Primeiros passos
 ----------------

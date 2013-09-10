@@ -12,9 +12,8 @@ App::uses('Validation', 'Utility');
  *
  * @author	 	 Felipe Theodoro Gonçalves
  * @author       Cauan Cabral
- * @link         https://github.com/ftgoncalves/pagseguro/
+ * @link         https://github.com/radig/pagseguro/
  * @license      MIT License (http://www.opensource.org/licenses/mit-license.php)
- * @version      2.2
  */
 
 /**

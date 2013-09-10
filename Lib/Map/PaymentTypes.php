@@ -16,7 +16,6 @@ namespace PagSeguro\Lib\Map;
  * @author      Cauan Cabral
  * @link        https://github.com/ftgoncalves/pagseguro/
  * @license     MIT License (http://www.opensource.org/licenses/mit-license.php)
- * @version     2.2
  */
 class PaymentTypes {
 

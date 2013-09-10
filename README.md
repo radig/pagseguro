@@ -26,7 +26,7 @@ Feedback
 
 File bugs or other issues [here].
 
-[here]: https://github.com/ftgoncalves/pagseguro/issues
+[here]: https://github.com/radig/pagseguro/issues
 
 
 Todos direitos reservados:
