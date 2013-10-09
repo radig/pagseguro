@@ -1,6 +1,4 @@
 <?php
-namespace PagSeguro\Lib\Map;
-
 /**
  * Classe que disponibiliza os meios de pagamento disponíveis
  * no PagSeguro.

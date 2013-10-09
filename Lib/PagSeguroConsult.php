@@ -50,8 +50,7 @@ class PagSeguroConsult extends PagSeguro {
 		$this->URI['path'] .= $code;
 
 		try {
-			$response = $this->_sendData($this->_prepareData(), 'GET');
-			return $response;
+			return $this->_sendData($this->_prepareData(), 'GET');
 		}
 		catch (PagSeguroException $e) {
 			$this->lastError = $e->getMessage();
@@ -139,7 +138,6 @@ class PagSeguroConsult extends PagSeguro {
 	 * @return array
 	 */
 	protected function _parseResponse($data) {
-
 		if (!isset($data['transactionSearchResult']) && !isset($data['transaction'])) {
 			throw new PagSeguroException("Resposta inválida do PagSeguro para uma Consulta.");
 		}

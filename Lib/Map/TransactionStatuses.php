@@ -1,6 +1,4 @@
 <?php
-namespace PagSeguro\Lib\Map;
-
 /**
  * Classe que disponibiliza as situações das transações para
  * fácil recuperação das mensagens.

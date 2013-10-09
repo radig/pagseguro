@@ -1,5 +1,7 @@
 <?php
 App::uses('PagSeguro', 'PagSeguro.Lib');
+App::uses('TransactionStatuses', 'PagSeguro.Lib/Map');
+
 class PagSeguroTestCase extends CakeTestCase {
 
 	/**
@@ -56,5 +58,10 @@ class PagSeguroTestCase extends CakeTestCase {
 			'email' => 'email@email.com',
 			'token' => '3C2B7B8F25EB42648516DAF4BCF49953'
 		));
+	}
+
+	public function testGetStatusName() {
+		$this->assertSame('Situação inválida', PagSeguro::getStatusName(999));
+		$this->assertEquals(TransactionStatuses::$map[1], PagSeguro::getStatusName(1));
 	}
 }

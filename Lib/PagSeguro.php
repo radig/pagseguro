@@ -67,7 +67,6 @@ class PagSeguro {
 	public $lastError = null;
 
 	public function __construct($settings = array()) {
-
 		if (empty($settings) && Configure::read('PagSeguro') !== null) {
 			$settings = (array)Configure::read('PagSeguro');
 		}
@@ -99,8 +98,7 @@ class PagSeguro {
 	 * @return string Nome da situação
 	 */
 	public static function getStatusName($statusCode) {
-		$msg = PagSeguro\Lib\Map\TransactionStatuses::getMessage($statusCode);
-		return $msg ?: 'Situação inválida';
+		return TransactionStatuses::getMessage($statusCode) ?: 'Situação inválida';
 	}
 
 	/**
